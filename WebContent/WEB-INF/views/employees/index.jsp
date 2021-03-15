@@ -14,6 +14,7 @@
                     <th>社員番号</th>
                     <th>氏名</th>
                     <th>操作</th>
+                    <th>職位</th>
                 </tr>
                 <c:forEach var="employee" items="${employees}" varStatus="status">
                     <tr class="row${status.count % 2}">
@@ -28,6 +29,17 @@
                                     <a href="<c:url value='/employees/show?id=${employee.id}' />">詳細を表示</a>
                                 </c:otherwise>
                             </c:choose>
+                        </td>
+                        <td>
+                            <c:if test="${employee.admin_flag == 0}">
+                                一般社員
+                            </c:if>
+                            <c:if test="${employee.admin_flag == 1}">
+                                管理者
+                            </c:if>
+                            <c:if test="${employee.admin_flag == 2}">
+                                課長
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
