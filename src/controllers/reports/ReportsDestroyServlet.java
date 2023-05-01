@@ -1,7 +1,6 @@
-package controllers.employees;
+package controllers.reports;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
@@ -10,22 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Employee;
+import models.Report;
 import utils.DBUtil;
 
+
 /**
- * Servlet implementation class EmployeesDestroyServlet
+ * Servlet implementation class ReportsDestroyServlet
  */
-@WebServlet("/employees/destroy")
-public class EmployeesDestroyServlet extends HttpServlet {
+@WebServlet("/reports/destroy")
+public class ReportsDestroyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EmployeesDestroyServlet() {
+    public ReportsDestroyServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
+
 
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,17 +36,17 @@ public class EmployeesDestroyServlet extends HttpServlet {
         String _token = (String)request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
-
-            Employee e = em.find(Employee.class, (Integer)(request.getSession().getAttribute("employee_id")));
-            e.setDelete_flag(1);
-            e.setUpdated_at(new Timestamp(System.currentTimeMillis()));
-
+            Report r = em.find(Report.class, (Integer)(request.getSession().getAttribute("report_id")));
+            System.out.println("完了");
             em.getTransaction().begin();
+            em.remove(r);
             em.getTransaction().commit();
             em.close();
-            request.getSession().setAttribute("flush", "従業員データを削除しました");
+            request.getSession().setAttribute("flush", "日報の削除が完了しました");
 
-            response.sendRedirect(request.getContextPath() + "/employees/index");
+            request.getSession().removeAttribute("report_id");//セッションスコープ上の不要なデータ削除
+
+            response.sendRedirect(request.getContextPath() + "/reports/index");
         }
     }
 

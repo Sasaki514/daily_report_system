@@ -23,8 +23,8 @@
 
                 </tr>
                 <c:forEach var="report" items="${reports}" varStatus="status">
-                    <c:if
-                        test="${report.approval_flag == 1 or sessionScope.login_employee.admin_flag == 2}">
+                    <%--<c:if
+                        //test="${report.approval_flag == 1 or sessionScope.login_employee.admin_flag == 2}"> --%>
                         <tr class="row${status.count % 2}">
                             <td class="report_name"><c:out
                                     value="${report.employee.name}" /></td>
@@ -58,7 +58,7 @@
                                 </c:choose>
                             </c:if>
                         </tr>
-                    </c:if>
+                   <%--</c:if> --%>
                 </c:forEach>
             </tbody>
         </table>

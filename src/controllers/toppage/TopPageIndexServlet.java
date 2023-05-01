@@ -18,7 +18,7 @@ import utils.DBUtil;
 /**
  * Servlet implementation class TopPageIndexServlet
  */
-@WebServlet("/index.html")
+@WebServlet("/index.html")//　"/index.html"のURLマッピング="/", トップページのサーブレットのURLマッピングはindex.htmlに設定しておく
 public class TopPageIndexServlet extends HttpServlet {
         private static final long serialVersionUID = 1L;
 
