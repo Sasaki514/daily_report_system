@@ -26,6 +26,10 @@ import javax.persistence.Table;
         query = "SELECT COUNT(r) FROM Report AS r"
     ),
     @NamedQuery(
+            name = "getApprovalCount",
+            query = "SELECT r FROM Report AS r WHERE r.approval_flag = 1"
+        ),
+    @NamedQuery(
             name = "getMyAllReports",
             query = "SELECT r FROM Report AS r WHERE r.employee = :employee ORDER BY r.id DESC"
         ),

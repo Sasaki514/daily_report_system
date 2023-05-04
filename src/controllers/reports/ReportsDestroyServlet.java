@@ -37,7 +37,6 @@ public class ReportsDestroyServlet extends HttpServlet {
         if(_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
             Report r = em.find(Report.class, (Integer)(request.getSession().getAttribute("report_id")));
-            System.out.println("完了");
             em.getTransaction().begin();
             em.remove(r);
             em.getTransaction().commit();

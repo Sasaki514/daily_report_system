@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +37,8 @@ public class TopPageIndexServlet extends HttpServlet {
         EntityManager em = DBUtil.createEntityManager();
 
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
+        //login_employeeオブジェクトのcodeを取得する
+        String login_code=login_employee.getCode();
 
         int page;
         try{
@@ -53,10 +56,22 @@ public class TopPageIndexServlet extends HttpServlet {
                                      .setParameter("employee", login_employee)
                                      .getSingleResult();
 
+//        long approval_count = (long) em.createNamedQuery("getApprovalCount", Long.class)
+//                .getSingleResult();
+
+        //DBからログインIDに準じた日報の件数を取得
+        Query query = em.createQuery("SELECT COUNT(r) FROM Report AS r WHERE r.approval_flag =1 AND r.employee.code = :code");
+        query.setParameter("code", login_code);
+        Long approval_count = (Long) query.getSingleResult();
+
         em.close();
+
+
+
 
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
+        request.setAttribute("approval_count", approval_count);
         request.setAttribute("page", page);
 
         if(request.getSession().getAttribute("flush") != null) {
